@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { TelnyxRTC } from '@telnyx/webrtc';
+import TelnyxRTC from '../../../src/TelnyxRTC';
 
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 
@@ -231,14 +231,19 @@ const WebDialer = ({
       .on('registered', () => {
         setRegistered(true);
         setRegistering(false);
+        debugger;
 
         startCall();
       })
       .on('unregistered', () => {
+        debugger;
+
         setRegistered(false);
         setRegistering(false);
       })
       .on('callUpdate', (call) => {
+        debugger;
+
         if (call.state === 'done') {
           setCall(null);
         } else {
@@ -252,6 +257,8 @@ const WebDialer = ({
   };
 
   const connect = () => {
+    debugger;
+
     if (registered) {
       startCall();
     } else {

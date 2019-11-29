@@ -12,9 +12,6 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "@telnyx/webrtc": "1.0.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@storybook/addon-actions": "^5.2.1",
@@ -27,6 +24,7 @@
     "babel-plugin-react-docgen": "^3.1.0",
     "react-proptypes": "^1.0.0",
     "storybook-addon-smart-knobs": "^5.0.0",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "ts-loader": "^6.2.1"
   }
 }
