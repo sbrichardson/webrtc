@@ -242,8 +242,6 @@ const WebDialer = ({
         setRegistering(false);
       })
       .on('callUpdate', (call) => {
-        debugger;
-
         if (call.state === 'done') {
           setCall(null);
         } else {
@@ -257,8 +255,6 @@ const WebDialer = ({
   };
 
   const connect = () => {
-    debugger;
-
     if (registered) {
       startCall();
     } else {
