@@ -41,7 +41,7 @@ export default class SipClient extends BaseClient {
         new SipCall(this.sip, session, isIncoming)
       );
     };
-
+    debugger;
     this.sip = new SIP.Web.Simple({
       media: {
         remote: {
@@ -83,7 +83,7 @@ export default class SipClient extends BaseClient {
     this.sip.ua.once('transportCreated', () =>
       this.eventBus.emit('socket.connect')
     );
-
+    debugger;
     this.sip.ua.start();
   }
 
@@ -105,6 +105,7 @@ export default class SipClient extends BaseClient {
   }
 
   newCall(options: ICallOptions): SipCall {
+    debugger;
     if (!options.destination) {
       throw new TypeError('destination is required');
     }

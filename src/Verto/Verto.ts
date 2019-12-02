@@ -28,6 +28,7 @@
  * Stefan Yohansson <sy.fen0@gmail.com>
  *
  * verto.js - Main interface
+ * SOURCE: https://freeswitch.com/stash/users/andreabat/repos/freeswitch/browse/html5/verto/js/src/es6/verto.js?at=64c48abd9ce&until=64c48abd9cec44b31eda442437bfd1b829dd657c
  *
  */
 import generateGUID from 'uuid/v1';
@@ -138,7 +139,7 @@ export default class Verto {
 
   connect(params = this.params, callbacks = this.callbacks) {
     // console.log('verto connect', this.options.socketUrl);
-
+    debugger;
     if (!params || !params.socketUrl) {
       return;
     }
@@ -219,6 +220,7 @@ export default class Verto {
       }
       // No socket, or dying socket, let's get a new one.
       this._ws_socket = new WebSocket(this.options.socketUrl);
+
       if (this._ws_socket) {
         // Set up onmessage handler.
         this._ws_socket.onmessage = (event) => {
@@ -341,7 +343,7 @@ export default class Verto {
   _onMessage(event) {
     // Check if this could be a JSON RPC message.
     let response;
-
+    debugger;
     // Special sub proto
     if (event.data[0] == '#' && event.data[1] == 'S' && event.data[2] == 'P') {
       if (event.data[3] == 'U') {
@@ -487,6 +489,7 @@ export default class Verto {
         dialog.rtc.stop();
         dialog = null;
       }
+      debugger;
       if (dialog) {
         switch (data.method) {
           case 'verto.bye':

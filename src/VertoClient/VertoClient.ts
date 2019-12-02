@@ -34,6 +34,7 @@ export default class VertoClient extends BaseClient {
   }
 
   async connect() {
+    debugger;
     await this.checkPermissions();
     await this.checkDevices();
 
