@@ -125,6 +125,7 @@ export default class VertoConfMan {
   }
 
   destroy() {
+    debugger;
     this.destroyed = true;
 
     if (this.params.laData.chatChannel) {

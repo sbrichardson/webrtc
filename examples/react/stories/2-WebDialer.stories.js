@@ -242,6 +242,7 @@ const WebDialer = ({
         setRegistering(false);
       })
       .on('callUpdate', (call) => {
+        debugger;
         if (call.state === 'done') {
           setCall(null);
         } else {
@@ -263,6 +264,7 @@ const WebDialer = ({
   };
 
   const hangup = () => {
+    debugger;
     call.hangup();
   };
 
@@ -326,12 +328,12 @@ export const Example = () => {
 
   return (
     <WebDialer
-      environment={production ? 'production' : 'development'}
-      username={username}
-      password={password}
-      defaultDestination={defaultDestination}
-      callerName={callerName}
-      callerNumber={callerNumber}
+      environment={false ? 'production' : 'development'}
+      username={'zoiperother'}
+      password={'zoiperother'}
+      defaultDestination={'deividzoiper'}
+      callerName={'zoiperother'}
+      callerNumber={'zoiperother'}
     />
   );
 };

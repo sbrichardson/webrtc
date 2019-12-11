@@ -51,6 +51,7 @@ export default class VertoClient extends BaseClient {
         this.eventBus.emit('socket.close');
       },
       onDialogState: (d: IVertoDialog) => {
+        debugger;
         this.eventBus.emit('callUpdate', new VertoCall(d));
       },
     };
@@ -96,6 +97,7 @@ export default class VertoClient extends BaseClient {
   }
 
   disconnect() {
+    debugger;
     if (this.verto) {
       this.verto.logout();
       this.verto = null;

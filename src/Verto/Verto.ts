@@ -497,6 +497,7 @@ export default class Verto {
             dialog.hangup(data.params);
             break;
           case 'verto.answer':
+            debugger;
             dialog.handleAnswer(data.params);
             break;
           case 'verto.media':

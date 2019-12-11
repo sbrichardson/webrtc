@@ -24,6 +24,7 @@ export default class VertoCall implements ICall {
       case VertoCallState.destroy:
         return 'done';
       case VertoCallState.answering:
+        debugger;
         return 'ringing';
       default:
         return 'new';

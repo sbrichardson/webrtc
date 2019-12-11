@@ -56,6 +56,8 @@ export default class VertoDialog {
       params
     );
 
+    debugger;
+
     this.verto = verto;
     this.direction = direction;
     this.lastState = null;
@@ -301,6 +303,7 @@ export default class VertoDialog {
   }
 
   setState(state) {
+    debugger;
     if (this.state == Enum.state.ringing) {
       this.stopRinging();
     }
@@ -720,6 +723,7 @@ export default class VertoDialog {
     this.rtc.answer(
       params.sdp,
       () => {
+        debugger;
         // console.log('Dialog ' + this.callID + 'Establishing early media');
         this.setState(Enum.state.early);
 
