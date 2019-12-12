@@ -39,19 +39,24 @@ export default class VertoClient extends BaseClient {
     await this.checkDevices();
 
     const callbacks = {
-      onWSConnect: () => {
+      onWSConnect: (e) => {
+        console.log('onWSConnect', e);
         this.eventBus.emit('socket.connect');
       },
-      onWSLogin: () => {
+      onWSLogin: (e) => {
+        console.log('onWSLogin', e);
+
         this.eventBus.emit('ready');
         this.eventBus.emit('registered');
       },
-      onWSClose: () => {
+      onWSClose: (e) => {
+        console.log('onWSClose', e);
+
         this.eventBus.emit('unregistered');
         this.eventBus.emit('socket.close');
       },
       onDialogState: (d: IVertoDialog) => {
-        debugger;
+        console.log('onDialogState', d);
         this.eventBus.emit('callUpdate', new VertoCall(d));
       },
     };
