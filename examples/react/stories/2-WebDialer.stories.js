@@ -334,8 +334,8 @@ const WebDialer = ({
 
   return (
     <Container>
-      <video autoplay id='#localVideo' ref={mainMediaRef} />
-      <video autoplay ref={mediaRef} />
+      <video autoplay='autoplay' id='#localVideo' ref={mainMediaRef} />
+      <audio autoplay='autoplay' id='#remoteVideo' ref={mediaRef} />
 
       <div>
         <NumberInput
