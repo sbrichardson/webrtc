@@ -110,7 +110,9 @@ export default class VertoDialog {
       this.videoStream = this.audioStream;
     }
 
-    if (this.params.localTag) {
+    if (typeof this.params.localTag === 'function') {
+      this.localVideo = this.params.localTag();
+    } else if (this.params.tag) {
       this.localVideo = document.querySelector(this.params.localTag);
     }
 
@@ -313,8 +315,8 @@ export default class VertoDialog {
     } else {
       console.warn(
         'Dialog: ' +
-          this.callID +
-          ' Browser does not support output device selection.'
+        this.callID +
+        ' Browser does not support output device selection.'
       );
       if (callback) {
         callback(false, null, arg);
@@ -332,11 +334,11 @@ export default class VertoDialog {
     if (this.state == state || !this.checkStateChange(this.state, state)) {
       console.error(
         'Dialog ' +
-          this.callID +
-          ': INVALID state change from ' +
-          this.state +
-          ' to ' +
-          state
+        this.callID +
+        ': INVALID state change from ' +
+        this.state +
+        ' to ' +
+        state
       );
       this.hangup();
       return false;

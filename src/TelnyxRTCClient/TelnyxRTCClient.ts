@@ -52,7 +52,7 @@ export default class TelnyxRTCClient extends BaseClient {
         this.eventBus.emit('callUpdate', new TelnyxRTCCall(d));
       },
     };
-
+    console.log("LOCAL", this.localElement)
     this.telnyxRTC = new Verto(
       {
         login: `${this.credentials.username}@${this.host}`,
@@ -67,6 +67,7 @@ export default class TelnyxRTCClient extends BaseClient {
           useCamera: getDeviceString(this.useCamera),
         },
         tag: () => this.remoteElement,
+        localTag: () => this.localElement
       },
       callbacks
     );

@@ -142,6 +142,7 @@ function FSRTCattachMediaStream(element, stream) {
   ) {
     (<any>window).attachMediaStream(element, stream);
   } else {
+    debugger
     if (typeof element.srcObject !== 'undefined') {
       element.srcObject = stream;
     } else if (typeof element.src !== 'undefined') {
@@ -161,9 +162,21 @@ function onRemoteStream(self, stream) {
   // console.log('REMOTE STREAM', stream, element);
 
   FSRTCattachMediaStream(element, stream);
+  var playPromise = self.options.useAudio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(_ => {
+      // Automatic playback started!
+      // Show playing UI.
+      console.log("EIIII")
+      self.remoteStream = stream;
+    })
+      .catch(error => {
+        console.error(error)
+        // Auto-play was prevented
+        // Show paused UI.
+      });
+  }
 
-  self.options.useAudio.play();
-  self.remoteStream = stream;
 }
 
 function onOfferSDP(self, sdp) {
@@ -441,7 +454,7 @@ function getUserMedia(options) {
     .getUserMedia(options.constraints)
     .then((stream) => {
       if (options.localVideo) {
-        options.localVideo['src'] = URL.createObjectURL(stream);
+        options.localVideo.srcObject = stream
         options.localVideo.style.display = 'block';
       }
 
@@ -628,15 +641,15 @@ export default class VertoRTC {
 
     if (this.options.localVideo) {
       this.options.localVideo.style.display = 'none';
-      this.options.localVideo['src'] = '';
+      this.options.localVideo.srcObject = '';
     }
 
-    if (this.options.localVideoStream) {
-      if (typeof this.options.localVideoStream.stop == 'function') {
-        this.options.localVideoStream.stop();
+    if (this.options.localVideo) {
+      if (typeof this.options.localVideo.stop == 'function') {
+        this.options.localVideo.stop();
       } else {
-        if (this.options.localVideoStream.active) {
-          const tracks = this.options.localVideoStream.getTracks();
+        if (this.options.localVideo.active) {
+          const tracks = this.options.localVideo.getTracks();
           // console.log(tracks);
           tracks.forEach((track, index) => {
             // console.log(track);
@@ -737,11 +750,11 @@ export default class VertoRTC {
         },
         localVideo: this.options.localVideo,
         onsuccess: (e) => {
-          this.options.localVideoStream = e;
-          // console.log('local video ready');
+          //this.options.localVideoStream = e;
+          console.log('local video ready');
         },
         onerror: (e) => {
-          console.error('local video error!');
+          console.error('local video error!', e);
         },
       });
     }
@@ -800,7 +813,7 @@ export default class VertoRTC {
       };
 
       useVideo = this.options.useVideo;
-
+      debugger
       if (
         useVideo &&
         this.options.useCamera &&
@@ -826,8 +839,8 @@ export default class VertoRTC {
         }
       } else {
         console.log('Camera Disabled');
-        video = false;
-        useVideo = false;
+        video = true;
+        useVideo = true;
       }
     }
 
@@ -886,11 +899,11 @@ export default class VertoRTC {
         },
         localVideo: this.options.localVideo,
         onsuccess: function (e) {
-          this.options.localVideoStream = e;
+          //this.options.localVideoStream = e;
           // console.log('local video ready');
         },
         onerror: function (e) {
-          console.error('local video error!');
+          console.error('local video error!', e);
         },
       });
     }

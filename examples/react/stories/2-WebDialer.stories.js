@@ -234,6 +234,7 @@ const WebDialer = ({
 }) => {
   const clientRef = useRef();
   const mediaRef = useRef();
+  const mainMediaRef = useRef();
   const [registering, setRegistering] = useState();
   const [registered, setRegistered] = useState();
   const [call, setCall] = useState();
@@ -271,9 +272,11 @@ const WebDialer = ({
         password,
       },
       remoteElement: () => mediaRef.current,
+      localElement: () => mainMediaRef.current,
       useMic: true,
       useSpeaker: true,
-      useCamera: false,
+      useCamera: true,
+      useVideo: true,
     })
       .on('registered', () => {
         setRegistered(true);
@@ -331,7 +334,8 @@ const WebDialer = ({
 
   return (
     <Container>
-      <audio ref={mediaRef} />
+      <video autoplay id='#localVideo' ref={mainMediaRef} />
+      <video autoplay ref={mediaRef} />
 
       <div>
         <NumberInput
@@ -370,10 +374,10 @@ export const Example = () => {
 
   return (
     <WebDialer
-      environment={production ? 'production' : 'development'}
-      username={username}
-      password={password}
-      defaultDestination={defaultDestination}
+      environment={false ? 'production' : 'development'}
+      username={'zoiperother'}
+      password={'zoiperother'}
+      defaultDestination={'sip:zoiperother@sipdev.telnyx.com'}
       callerName={callerName}
       callerNumber={callerNumber}
     />

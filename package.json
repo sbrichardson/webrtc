@@ -20,7 +20,8 @@
     "prepublishOnly": "npm run test",
     "test": "jest",
     "docs": "typedoc src",
-    "release": "release-it"
+    "release": "release-it",
+    "compile": "tsc -w"
   },
   "author": "Telnyx <support@telnyx.com> (https://www.telnyx.com/)",
   "repository": {
