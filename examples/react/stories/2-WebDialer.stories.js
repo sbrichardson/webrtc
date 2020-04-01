@@ -108,11 +108,17 @@ const DialPad = ({
   const muted = call && call.isMuted;
   const makeSendDigit = (x) => () => onDigit(x);
 
-  const isInbound = call && call.call.direction === 'inbound';
+  const isInbound = call && !Boolean(call.direction);
   const isIncomingCall = isInbound && call.state === 'new';
+
+  if (call) {
+    console.log('=====isIncomingCall======', call.direction);
+    console.log('=====isIncomingCall======', call.state);
+  }
 
   const answerCall = () => {
     if (call) {
+      console.log('CALL=======>>', call);
       call.answer();
     }
   };
@@ -257,7 +263,7 @@ const WebDialer = ({
 
   const startCall = () => {
     const newCall = clientRef.current.newCall({
-      destination,
+      destinationNumber: destination,
       callerName,
       callerNumber,
     });
@@ -266,35 +272,86 @@ const WebDialer = ({
 
   const connectAndCall = () => {
     const newClient = new TelnyxRTC({
-      env: environment,
-      credentials: {
-        username,
-        password,
-      },
+      host: 'rtcdev.telnyx.com:14938',
+      login: `${username}@rtcdev.telnyx.com`,
+      password: password,
       remoteElement: () => mediaRef.current,
-      localElement: () => mainMediaRef.current,
-      useMic: true,
-      useSpeaker: true,
-      useCamera: true,
-      useVideo: true,
     })
-      .on('registered', () => {
+      .on('signalwire.socket.open', (call) => {
+        console.log('signalwire.socket.open', call);
         setRegistered(true);
         setRegistering(false);
 
         startCall();
       })
-      .on('unregistered', () => {
-        setRegistered(false);
-        setRegistering(false);
+      .on('signalwire.socket.message', (call) => {
+        console.log('signalwire.socket.message', call);
       })
-      .on('callUpdate', (call) => {
-        if (call.state === 'done') {
-          setCall(null);
-        } else {
-          setCall(call);
+      .on('signalwire.socket.error', (call) => {
+        console.log('signalwire.socket.error', call);
+      })
+      .on('signalwire.socket.close', (call) => {
+        console.log('signalwire.socket.close', call);
+      })
+      .on('signalwire.notification', async (notification) => {
+        console.log('signalwire.notification', notification);
+        switch (notification.type) {
+          case 'callUpdate':
+            if (
+              notification.call.state === 'hangup' ||
+              notification.call.state === 'destroy'
+            ) {
+              setCall(null);
+            } else {
+              setCall(notification.call);
+            }
+          // case 'refreshToken':
+          //   const refreshToken = await this.refreshJWT(jwt.refresh_token);
+          //   this.client.refreshToken(refreshToken.jwt_token);
         }
       });
+
+    const STUN_SERVER = { urls: 'stun:stun.telnyx.com:3843' };
+    const TURN_SERVER = {
+      urls: 'turn:turn.telnyx.com:3478?transport=tcp',
+      username: 'turnuser',
+      credential: 'turnpassword',
+    };
+    newClient.iceServers = [TURN_SERVER, STUN_SERVER];
+
+    // .on('registered', () => {
+    //   setRegistered(true);
+    //   setRegistering(false);
+
+    //   startCall();
+    // })
+    // .on('unregistered', () => {
+    //   setRegistered(false);
+    //   setRegistering(false);
+    // })
+    // .on('callUpdate', (call) => {
+    //   if (call.state === 'done') {
+    //     setCall(null);
+    //   } else {
+    //     setCall(call);
+    //   }
+    // });
+
+    console.log(')!!!-=====>', newClient);
+
+    // const newClient = new TelnyxRTC({
+    //   env: environment,
+    //   credentials: {
+    //     username,
+    //     password,
+    //   },
+    //   remoteElement: () => mediaRef.current,
+    //   localElement: () => mainMediaRef.current,
+    //   useMic: true,
+    //   useSpeaker: true,
+    //   useCamera: true,
+    //   useVideo: true,
+    // })
 
     clientRef.current = newClient;
     setRegistering(true);
@@ -334,7 +391,7 @@ const WebDialer = ({
 
   return (
     <Container>
-      <video autoplay='autoplay' id='#localVideo' ref={mainMediaRef} />
+      {/* <video autoplay='autoplay' id='#localVideo' ref={mainMediaRef} /> */}
       <audio autoplay='autoplay' id='#remoteVideo' ref={mediaRef} />
 
       <div>
