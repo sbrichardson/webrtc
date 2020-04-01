@@ -16,6 +16,7 @@ export default class Verto extends BrowserSession {
 
   validateOptions() {
     const { host, login, passwd, password } = this.options
+    console.log("====>", this.options)
     return Boolean(host) && Boolean(login && (passwd || password))
   }
 

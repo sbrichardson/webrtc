@@ -1,3 +1,3 @@
-import TelnyxRTCClient from './TelnyxRTCClient';
+import Verto from './Modules/NewVerto/Verto';
 
-export default class TelnyxRTC extends TelnyxRTCClient {}
+export default class TelnyxRTC extends Verto { }

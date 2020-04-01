@@ -11,20 +11,20 @@ export enum Direction {
 }
 
 export enum VertoMethod {
-  Invite = 'verto.invite',
-  Attach = 'verto.attach',
-  Answer = 'verto.answer',
-  Info = 'verto.info',
-  Display = 'verto.display',
-  Media = 'verto.media',
-  Event = 'verto.event',
-  Bye = 'verto.bye',
-  Punt = 'verto.punt',
-  Broadcast = 'verto.broadcast',
-  Subscribe = 'verto.subscribe',
-  Unsubscribe = 'verto.unsubscribe',
-  ClientReady = 'verto.clientReady',
-  Modify = 'verto.modify',
+  Invite = 'telnyx_rtc.invite',
+  Attach = 'telnyx_rtc.attach',
+  Answer = 'telnyx_rtc.answer',
+  Info = 'telnyx_rtc.info',
+  Display = 'telnyx_rtc.display',
+  Media = 'telnyx_rtc.media',
+  Event = 'telnyx_rtc.event',
+  Bye = 'telnyx_rtc.bye',
+  Punt = 'telnyx_rtc.punt',
+  Broadcast = 'telnyx_rtc.broadcast',
+  Subscribe = 'telnyx_rtc.subscribe',
+  Unsubscribe = 'telnyx_rtc.unsubscribe',
+  ClientReady = 'telnyx_rtc.clientReady',
+  Modify = 'telnyx_rtc.modify',
 }
 
 export const NOTIFICATION_TYPE = {

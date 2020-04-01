@@ -1,17 +1,11 @@
 import TelnyxRTC from './TelnyxRTC';
 import {
-  ICall,
-  IClientOptions,
-  ICallOptions,
-  ICredentials,
-  MessageEvents,
-} from './utils/interfaces';
+  CallOptions,
+  IWebRTCCall
+} from './Modules/NewVerto/webrtc/interfaces'
 
 export {
   TelnyxRTC,
-  ICall,
-  IClientOptions,
-  ICallOptions,
-  ICredentials,
-  MessageEvents,
+  IWebRTCCall,
+  CallOptions,
 };
