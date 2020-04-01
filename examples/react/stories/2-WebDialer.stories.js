@@ -103,13 +103,14 @@ const DialPad = ({
   toggleMute,
   toggleHold,
   disabled,
+  isIncomingCall,
 }) => {
   const held = call && call.isHeld;
   const muted = call && call.isMuted;
   const makeSendDigit = (x) => () => onDigit(x);
 
-  const isInbound = call && !Boolean(call.direction);
-  const isIncomingCall = isInbound && call.state === 'new';
+  // const isInbound = call && !Boolean(call.direction);
+  // const isIncomingCall = isInbound && call.state === 'new';
 
   if (call) {
     console.log('=====isIncomingCall======', call.direction);
@@ -243,6 +244,8 @@ const WebDialer = ({
   const mainMediaRef = useRef();
   const [registering, setRegistering] = useState();
   const [registered, setRegistered] = useState();
+  const [isInboundCall, setIsInboundCall] = useState(false);
+
   const [call, setCall] = useState();
   const [destination, setDestination] = useState(defaultDestination);
 
@@ -301,13 +304,19 @@ const WebDialer = ({
               notification.call.state === 'hangup' ||
               notification.call.state === 'destroy'
             ) {
-              setCall(null);
-            } else {
-              setCall(notification.call);
+              setIsInboundCall(false);
+              return setCall(null);
             }
-          // case 'refreshToken':
-          //   const refreshToken = await this.refreshJWT(jwt.refresh_token);
-          //   this.client.refreshToken(refreshToken.jwt_token);
+            if (notification.call.state === 'active') {
+              setIsInboundCall(false);
+              return setCall(notification.call);
+            }
+            if (notification.call.state === 'ringing') {
+              console.log('CADE');
+              setIsInboundCall(true);
+              return setCall(notification.call);
+            }
+            break;
         }
       });
 
@@ -403,6 +412,7 @@ const WebDialer = ({
         />
 
         <DialPad
+          isIncomingCall={isInboundCall}
           call={call}
           onEndCall={hangup}
           onStartCall={connect}
